@@ -5,6 +5,9 @@ public class CameraManager : MonoBehaviour
   [SerializeField] GameObject[] panels;
   int currentPanelIndex = 0;
   void Start() {
+    // 全て非表示設定にする
+    InactivePanel();
+
     // 0番目のパネルを初期表示とする
     panels[currentPanelIndex].SetActive(true);
   }
