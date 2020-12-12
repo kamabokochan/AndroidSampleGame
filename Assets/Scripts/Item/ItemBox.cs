@@ -48,4 +48,17 @@ public class ItemBox : MonoBehaviour {
       selectedSlot = slots[position];
     }
   }
+
+  public bool TryUseItem(Item.Type type) {
+    if (selectedSlot == null) {
+      return false;
+    }
+    if (selectedSlot.GetItem().type == type) {
+      selectedSlot.SetItem(null);
+      selectedSlot.HideBGPanel();
+      selectedSlot = null;
+      return true;
+    }
+    return false;
+  }
 }

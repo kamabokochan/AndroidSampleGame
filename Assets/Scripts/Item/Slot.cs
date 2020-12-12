@@ -20,8 +20,17 @@ public class Slot : MonoBehaviour　{
   // 画像をスロットに表示する
   public void SetItem(Item item)　{
     this.item = item;
-    image.sprite = item.sprite;
+    if (item == null) {
+      image.sprite = null;
+    } else {
+      image.sprite = item.sprite;
+    }
   }
+
+  public Item GetItem() {
+    return item;
+  }
+
   public bool OnSelected() {
     if (isEmpty()) {
       return false;
