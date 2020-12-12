@@ -7,10 +7,10 @@ public class PickUpItem : MonoBehaviour {
     Item item;
 
   public void Start() {
-    item = ItemBoxManager.instance.hogehoge(itemType);
+    item = ItemBox.instance.checkItemInTable(itemType);
   }
   public void OnClickItem() {
-    ItemBoxManager.instance.SetItem(item);
+    ItemBox.instance.SetItem(item);
     // アイテムをゲットしたので非表示にする
     gameObject.SetActive(false);
   }
