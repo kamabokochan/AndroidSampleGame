@@ -15,3 +15,5 @@ MonoBehaviour:
   itemList:
   - type: 0
     sprite: {fileID: 21300000, guid: 291878241803f48d3bc2f22a7317ae7f, type: 3}
+  - type: 1
+    sprite: {fileID: 21300000, guid: 34c39a9148de94d89866e3169af21a1c, type: 3}
