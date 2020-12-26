@@ -44,6 +44,10 @@ public class ItemBox : MonoBehaviour {
     foreach (Slot slot in slots) {
       slot.HideBGPanel();
     }
+
+    // まず空にする
+    selectedSlot = null;
+
     if (slots[position].OnSelected()) {
       selectedSlot = slots[position];
     }
@@ -60,5 +64,14 @@ public class ItemBox : MonoBehaviour {
       return true;
     }
     return false;
+  }
+
+  public Item GetSelectedItem()
+  {
+    if (selectedSlot == null)
+    {
+      return null;
+    }
+    return selectedSlot.GetItem();
   }
 }
