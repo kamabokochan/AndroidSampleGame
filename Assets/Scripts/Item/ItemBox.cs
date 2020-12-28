@@ -40,7 +40,9 @@ public class ItemBox : MonoBehaviour {
     return null;
   }
 
-  public void OnSelectSlot(int position) {
+  public void OnSelectSlot(int position)
+  {
+    // スロットの選択状態を全て解除
     foreach (Slot slot in slots) {
       slot.HideBGPanel();
     }
@@ -48,59 +50,51 @@ public class ItemBox : MonoBehaviour {
     // まず空にする
     selectedSlot = null;
 
-    if (slots[position].OnSelected())
+    if (slots[position].isSelected())
     {
       selectedSlot = slots[position];
     }
-
-    if (selectedSlot == null)
+    else
     {
+      // selectedSlotがnullのままだったら処理終了
       return;
     }
 
-    Item.Type selectedSlotType = selectedSlot.GetItem().type;
+    // ミルクとイチゴを混ぜる
+    MixStoroberryAndMilk();
+  }
 
-    if (ZoomPanel.instance == null)
+  public void MixStoroberryAndMilk()
+  {
+    if (ZoomPanel.instance != null)
     {
-      return;
-    }
-
-    Item.Type zoomItemType = ZoomPanel.instance.GetZoomItem().type;
-
-    if (zoomItemType == Item.Type.Milk && selectedSlotType == Item.Type.Storoberry)
-    {
-      foreach (Slot slot in slots)
+      Item.Type selectedSlotType = selectedSlot.GetItem().type;
+      Item.Type zoomItemType = ZoomPanel.instance.GetZoomItem().type;
+      if (zoomItemType == Item.Type.Milk && selectedSlotType == Item.Type.Storoberry)
       {
-        if (slot.GetItem().type == Item.Type.Milk)
+        foreach (Slot slot in slots)
         {
-          foreach (Item item in itemListTable.itemList)
+          // 選択状態解除
+          slot.HideBGPanel();
+          // 空のスロットはcontinueする
+          if (slot.GetItem() == null)
           {
-            if (item.type == Item.Type.StoroberryMilk)
+            continue;
+          }
+          // ミルクのスロットだったらイチゴミルクを代入する
+          if (slot.GetItem().type == Item.Type.Milk)
+          {
+            foreach (Item item in itemListTable.itemList)
             {
-              slot.SetItem(item);
-              ZoomPanel.instance.SetZoomItem(item);
-              selectedSlot.SetItem(null);
-
-              // TODO 修正
-              foreach (Slot slot1 in slots)
+              if (item.type == Item.Type.StoroberryMilk)
               {
-                slot1.HideBGPanel();
-                if (slot1.GetItem() == null)
-                {
-                  continue;
-                }
-                else if (slot1.GetItem().type == Item.Type.StoroberryMilk)
-                {
-                  if (slot1.OnSelected())
-                  {
-                    selectedSlot = slot1;
-                  }
-                }
+                slot.SetItem(item);
+                ZoomPanel.instance.SetZoomItem(item);
+                selectedSlot.SetItem(null);
+                break;
               }
-              break;
             }
           }
-          break;
         }
       }
     }

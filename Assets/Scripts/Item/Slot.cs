@@ -31,13 +31,18 @@ public class Slot : MonoBehaviour　{
     return item;
   }
 
-  public bool OnSelected() {
+  public bool isSelected() {
     if (isEmpty()) {
       return false;
     }
 
-    backgroundPanel.SetActive(true);
+    OnSelected();
     return true;
+  }
+
+  public void OnSelected()
+  {
+    backgroundPanel.SetActive(true);
   }
 
   public void HideBGPanel() {
