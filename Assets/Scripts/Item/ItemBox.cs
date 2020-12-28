@@ -48,8 +48,61 @@ public class ItemBox : MonoBehaviour {
     // まず空にする
     selectedSlot = null;
 
-    if (slots[position].OnSelected()) {
+    if (slots[position].OnSelected())
+    {
       selectedSlot = slots[position];
+    }
+
+    if (selectedSlot == null)
+    {
+      return;
+    }
+
+    Item.Type selectedSlotType = selectedSlot.GetItem().type;
+
+    if (ZoomPanel.instance == null)
+    {
+      return;
+    }
+
+    Item.Type zoomItemType = ZoomPanel.instance.GetZoomItem().type;
+
+    if (zoomItemType == Item.Type.Milk && selectedSlotType == Item.Type.Storoberry)
+    {
+      foreach (Slot slot in slots)
+      {
+        if (slot.GetItem().type == Item.Type.Milk)
+        {
+          foreach (Item item in itemListTable.itemList)
+          {
+            if (item.type == Item.Type.StoroberryMilk)
+            {
+              slot.SetItem(item);
+              ZoomPanel.instance.SetZoomItem(item);
+              selectedSlot.SetItem(null);
+
+              // TODO 修正
+              foreach (Slot slot1 in slots)
+              {
+                slot1.HideBGPanel();
+                if (slot1.GetItem() == null)
+                {
+                  continue;
+                }
+                else if (slot1.GetItem().type == Item.Type.StoroberryMilk)
+                {
+                  if (slot1.OnSelected())
+                  {
+                    selectedSlot = slot1;
+                  }
+                }
+              }
+              break;
+            }
+          }
+          break;
+        }
+      }
     }
   }
 

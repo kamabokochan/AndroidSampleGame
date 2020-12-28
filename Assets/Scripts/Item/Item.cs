@@ -5,7 +5,10 @@ using UnityEngine;
 public class Item {
     public enum Type {
         Key,
-        Ball
+        Ball,
+        Storoberry,
+        Milk,
+        StoroberryMilk
     }
 
     // 種類
