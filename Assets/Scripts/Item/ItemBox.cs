@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class ItemBox : MonoBehaviour {
   // どこでも実行できるやつ
@@ -21,7 +22,8 @@ public class ItemBox : MonoBehaviour {
     }
   }
 
-  public void SetItem(Item item) {
+  public void SetItem(Item item)
+  {
     foreach (Slot slot in slots) {
       if (slot.isEmpty()) {
         slot.SetItem(item);
@@ -91,6 +93,17 @@ public class ItemBox : MonoBehaviour {
                 slot.SetItem(item);
                 ZoomPanel.instance.SetZoomItem(item);
                 selectedSlot.SetItem(null);
+
+                // TODO あとで整理する
+                // usedItemに追加
+                string[] array = { };
+                string[] hoge = { "Milk", "Storoberry" };
+                foreach (string fuga in hoge)
+                {
+                  array = array.Concat(new string[] { fuga }).ToArray();
+                }
+                SaveSystem.instance.UserData.usedItem = array;
+                SaveSystem.instance.Save();
                 break;
               }
             }
@@ -120,5 +133,34 @@ public class ItemBox : MonoBehaviour {
       return null;
     }
     return selectedSlot.GetItem();
+  }
+  public string[] savetest()
+  {
+    string[] array = { };
+    foreach (Slot slot in slots)
+    {
+      if (slot.GetItem() == null)
+      {
+        continue;
+      }
+      string type = slot.GetItem().type.ToString();
+      Debug.Log(type);
+      array = array.Concat(new string[] { type }).ToArray();
+    }
+    return array;
+  }
+
+  public void loadtest()
+  {
+    foreach (string aaa in SaveSystem.instance.UserData.Items)
+    {
+      foreach (Item item in itemListTable.itemList)
+      {
+        if (item.type.ToString() == aaa)
+        {
+          SetItem(item);
+        }
+      }
+    }
   }
 }

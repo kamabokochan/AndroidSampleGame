@@ -42,4 +42,10 @@ public class SaveSystem
     UserData = JsonUtility.FromJson<UserData>(jsonData);
     reader.Close();
   }
+
+  public void Reset()
+  {
+    UserData = new UserData();
+    Save();
+  }
 }

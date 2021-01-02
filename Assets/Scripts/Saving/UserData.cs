@@ -5,5 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class UserData
 {
-  public string UserName;
+  public string[] Items;
+  public string[] usedItem;
 }
